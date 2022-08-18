@@ -14,7 +14,7 @@ namespace SmartCardReader
         {
             try
             {
-                using (var manager = new UpdateManager(@"C:\Projects\MySquirrelDemo\SquirrelReleases"))
+                using (var manager = new UpdateManager("https://github.com/majvr93/SmartCardReader.git"))
                 {
                     manager.UpdateApp();
                 }
