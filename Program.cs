@@ -36,7 +36,8 @@ namespace SmartCardReader
             //Verify Updates
             try
             {
-                using (var updateManager = new UpdateManager(@"https://github.com/majvr93/SmartCardReader"))
+                //using (var updateManager = new UpdateManager(@"C:\SquirrelReleases"))
+                using (var updateManager = new UpdateManager(@"https://github.com/majvr93/SmartCardReader/"))
                 {
                     Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");
                     var releaseEntry = await updateManager.UpdateApp();
