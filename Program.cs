@@ -1,5 +1,4 @@
 ﻿using Nancy.Hosting.Self;
-using Squirrel;
 using System;
 using System.Net.Http.Headers;
 using System.ServiceModel;
@@ -10,8 +9,7 @@ using System.Web.Http.SelfHost;
 namespace SmartCardReader
 {
     class Program
-    {
-       
+    {       
         static void Main(string[] args)
         {
             HttpSelfHostServer server = null;
