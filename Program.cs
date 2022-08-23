@@ -1,8 +1,4 @@
-﻿using Nancy.Hosting.Self;
-using Squirrel;
-using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System;
 using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -17,39 +13,10 @@ namespace SmartCardReader
         static async Task Main(string[] args)
         {
             //kill other process
-            if (Process.GetProcessesByName("SmartCardReader").Length > 1)
-            {
-                var proccessList = Process.GetProcessesByName("SmartCardReader")
-                    .OrderBy(x => x.StartTime)
-                    .ToList();
-                Console.WriteLine(proccessList.Count() + $" processes found! ");
-
-                proccessList.Remove(proccessList.Last());
-                foreach (var process in proccessList)
-                {
-                    process.Kill();
-                    Console.WriteLine($"KILL proccess id = " + process.Id);
-                }
-            }
-                       
+            Extensions.KillIOldRunningProcesses();
 
             //Verify Updates
-            try
-            {
-                //using (var updateManager = new UpdateManager(@"C:\SquirrelReleases"))
-                using (var updateManager = new UpdateManager(@"https://github.com/majvr93/SmartCardReader/"))
-                {
-                    Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");
-                    var releaseEntry = await updateManager.UpdateApp();
-                    Console.WriteLine($"Update Version: {releaseEntry?.Version.ToString() ?? "No update"}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Update check error...");
-                Console.WriteLine("Exception: " + ex.Message);
-            }
-
+            await Extensions.VerifyUpdates();
 
             HttpSelfHostServer server = null;
             try

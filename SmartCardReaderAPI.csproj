@@ -145,6 +145,7 @@
     <Compile Include="Contorllers\SmartCardReaderController.cs" />
     <Compile Include="CustomNotificationErrorHandler.cs" />
     <Compile Include="DTO\NotificationErrorResponse.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="NotificationErrorContext.cs" />
     <Compile Include="DTO\CertificateResponse.cs" />
     <Compile Include="DTO\DomainResult.cs" />
