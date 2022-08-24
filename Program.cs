@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,10 +13,13 @@ namespace SmartCardReader
     {
         static async Task Main(string[] args)
         {
+            //Hide console window
+            Extensions.ShowConsoleWindow(false);
+
             //kill other process
             Extensions.KillIOldRunningProcesses();
 
-            //Verify Updates
+            //Verify updates
             await Extensions.VerifyUpdates();
 
             HttpSelfHostServer server = null;

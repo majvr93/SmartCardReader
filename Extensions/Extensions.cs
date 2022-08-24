@@ -2,12 +2,32 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SmartCardReader
 {
     public static class Extensions
     {
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        
+
+        public static void ShowConsoleWindow(bool show)
+        {
+            const int SW_HIDE = 0;
+            const int SW_SHOW = 5;
+            var handle = GetConsoleWindow();
+
+            if (!show)
+                ShowWindow(handle, SW_HIDE);
+            else 
+                ShowWindow(handle, SW_SHOW);
+        }
+
         public static async Task VerifyUpdates()
         {
             try
