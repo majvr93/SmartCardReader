@@ -16,10 +16,10 @@ namespace SmartCardReader
             //Extensions.ShowConsoleWindow(false);
 
             //kill other process
-            Extensions.KillIOldRunningProcesses();
+            Extensions.Extensions.KillIOldRunningProcesses();
 
             //Verify updates
-            await Extensions.VerifyUpdates();
+            await Extensions.Extensions.VerifyUpdates();
 
             HttpSelfHostServer server = null;
             try

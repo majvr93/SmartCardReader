@@ -1,8 +1,11 @@
 ﻿using SmartCardReader.DTO;
 using SmartCardReader.Services;
+using System;
 using System.Collections.Generic;
+using System.Management;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -23,7 +26,20 @@ namespace SmartCardReader.Contorllers
         [ActionName("Fetch")]
         public HttpResponseMessage Fetch()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new DomainResult<string>("Ready!", true));
+            List<ApplicationInfoResponse> _status = new List<ApplicationInfoResponse>();
+            ApplicationInfoResponse _smartCardReaderAppInfo = new ApplicationInfoResponse { AppName = "SmartCardReader", AppVerion = Assembly.GetExecutingAssembly().GetName().Version.ToString()};
+            _status.Add(_smartCardReaderAppInfo);
+
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product Where Name LIKE 'Autenticação.Gov%' OR Name LIKE 'AWP%'");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                Console.WriteLine(mo["Name"]);
+                Console.WriteLine(mo["version"]);
+                ApplicationInfoResponse _autenticaçãoGovAppInfo = new ApplicationInfoResponse { AppName = mo["Name"].ToString(), AppVerion = mo["version"].ToString() };
+                _status.Add(_autenticaçãoGovAppInfo);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new DomainResult<List<ApplicationInfoResponse>>(_status, true));
         }
 
         [HttpGet]

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace SmartCardReader
+namespace SmartCardReader.Extensions
 {
     public static class Extensions
     {
@@ -36,15 +36,26 @@ namespace SmartCardReader
                 using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/majvr93/SmartCardReader"))
                 //using (var updateManager = new UpdateManager(@"C:\SquirrelReleases"))
                 {
-                    Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");                    
-                    var releaseEntry = updateManager.UpdateApp().Result;
-                    Console.WriteLine($"Update Version: {releaseEntry?.Version.ToString() ?? "No update"}");
+                    var info = updateManager.CheckForUpdate().Result;
+                    if (info != null)
+                    {
+                        await updateManager.ApplyReleases(info);
+                        Console.WriteLine($"Updated!");
+                    }
+                    else if (info == null)
+                    {
+                        Console.WriteLine($"No Updates!");
+                    }
+                    /*Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");                    
+                    var releaseEntry = updateManager. UpdateApp().Result;
+                    Console.WriteLine($"Update Version: {releaseEntry?.Version.ToString() ?? "No update"}");*/
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Update check error...");
                 Console.WriteLine("Exception: " + ex.Message);
+                Console.WriteLine("InnerException: " + ex.InnerException.Message);
             }
         }
 
