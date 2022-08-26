@@ -13,7 +13,7 @@ namespace SmartCardReader
         static async Task Main(string[] args)
         {
             //Hide console window
-            Extensions.ShowConsoleWindow(false);
+            //Extensions.ShowConsoleWindow(false);
 
             //kill other process
             Extensions.KillIOldRunningProcesses();

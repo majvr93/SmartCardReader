@@ -32,11 +32,12 @@ namespace SmartCardReader
         {
             try
             {
-                using (var updateManager = new UpdateManager(@"https://drive.google.com/drive/folders/1oeNRaY4FnznJt_HYoj-FVmiXiFIRN53u?usp=sharing"))
+
+                using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/majvr93/SmartCardReader"))
                 //using (var updateManager = new UpdateManager(@"C:\SquirrelReleases"))
                 {
-                    Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");
-                    var releaseEntry = await updateManager.UpdateApp();
+                    Console.WriteLine($"Current version: {updateManager.CurrentlyInstalledVersion()}");                    
+                    var releaseEntry = updateManager.UpdateApp().Result;
                     Console.WriteLine($"Update Version: {releaseEntry?.Version.ToString() ?? "No update"}");
                 }
             }
