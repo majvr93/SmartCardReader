@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Deployment.Application;
 using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -12,8 +13,19 @@ namespace SmartCardReader
     {
         static async Task Main(string[] args)
         {
+            ApplicationDeployment deploy = ApplicationDeployment.CurrentDeployment;
+            UpdateCheckInfo update = deploy.CheckForDetailedUpdate();
+            if (deploy.CheckForUpdate())
+            {
+                Console.WriteLine("You can update to version: " + update.AvailableVersion.ToString());
+            }
+            else
+            {
+                Console.WriteLine("App alredy updated! Current Version: " + deploy.CurrentVersion);
+            }
+
             //Hide console window
-            Extensions.Extensions.ShowConsoleWindow(false);
+            //Extensions.Extensions.ShowConsoleWindow(false);
 
             //kill other process
             Extensions.Extensions.KillIOldRunningProcesses();
