@@ -13,13 +13,13 @@ namespace SmartCardReader
         static async Task Main(string[] args)
         {
             //Hide console window
-            //Extensions.ShowConsoleWindow(false);
+            Extensions.Extensions.ShowConsoleWindow(false);
 
             //kill other process
             Extensions.Extensions.KillIOldRunningProcesses();
 
             //Verify updates
-            await Extensions.Extensions.VerifyUpdates();
+            //await Extensions.Extensions.VerifyUpdates();
 
             HttpSelfHostServer server = null;
             try

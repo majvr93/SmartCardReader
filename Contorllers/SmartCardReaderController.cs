@@ -26,8 +26,15 @@ namespace SmartCardReader.Contorllers
         [ActionName("Fetch")]
         public HttpResponseMessage Fetch()
         {
+            return Request.CreateResponse(HttpStatusCode.OK, new DomainResult<string>("READY!", true));
+        }
+
+        [HttpGet]
+        [ActionName("AppVersions")]
+        public HttpResponseMessage CheckAppVersions()
+        {
             List<ApplicationInfoResponse> _status = new List<ApplicationInfoResponse>();
-            ApplicationInfoResponse _smartCardReaderAppInfo = new ApplicationInfoResponse { AppName = "SmartCardReader", AppVerion = Assembly.GetExecutingAssembly().GetName().Version.ToString()};
+            ApplicationInfoResponse _smartCardReaderAppInfo = new ApplicationInfoResponse { AppName = "SmartCardReader", AppVerion = Assembly.GetExecutingAssembly().GetName().Version.ToString() };
             _status.Add(_smartCardReaderAppInfo);
 
             ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product Where Name LIKE 'Autenticação.Gov%' OR Name LIKE 'AWP%'");
@@ -41,6 +48,7 @@ namespace SmartCardReader.Contorllers
 
             return Request.CreateResponse(HttpStatusCode.OK, new DomainResult<List<ApplicationInfoResponse>>(_status, true));
         }
+
 
         [HttpGet]
         [ActionName("CertificadosCC")]
